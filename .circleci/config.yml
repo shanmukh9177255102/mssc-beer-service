@@ -41,4 +41,4 @@ workflows:
 
           # run tests!
           - run: mvn integration-test
-      - maven/test # checkout, build, test, and upload test results
+      #- maven/test # checkout, build, test, and upload test results
