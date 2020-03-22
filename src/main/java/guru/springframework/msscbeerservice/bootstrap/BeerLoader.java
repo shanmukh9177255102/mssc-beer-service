@@ -2,6 +2,7 @@ package guru.springframework.msscbeerservice.bootstrap;
 
 import guru.springframework.msscbeerservice.domain.Beer;
 import guru.springframework.msscbeerservice.repository.BeerRepository;
+import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,10 @@ import java.math.BigDecimal;
 @Component
 public class BeerLoader implements CommandLineRunner {
 
+    public static final String BEER_1_UPC = "0631234200036";
+    public static final String BEER_2_UPC = "0631234300019";
+    public static final String BEER_3_UPC = "0083783375213";
+
     private final BeerRepository beerRepository;
 
     public BeerLoader(BeerRepository beerRepository) {
@@ -19,30 +24,39 @@ public class BeerLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadBeers();
+        loadBeerObjects();
     }
 
-    private void loadBeers() {
+    private void loadBeerObjects() {
+        Beer b1 = Beer.builder()
+                .beerName("Mango Bobs")
+                .beerStyle(BeerStyleEnum.IPA.name())
+                .minOnHand(12)
+                .quantityToBrew(200)
+                .price(new BigDecimal("12.95"))
+                .upc(BEER_1_UPC)
+                .build();
 
-        if(beerRepository.count()==0){
-            beerRepository.save(Beer.builder()
-                    .upc(1L)
-                    .beerName("b1")
-                    .beerStyle("IPA")
-                    .quantityToBrew(200)
-                    .minOnHand(250)
-                    .price(new BigDecimal("12.95"))
-                    .build());
-            beerRepository.save(Beer.builder()
-                    .upc(2L)
-                    .beerName("b2")
-                    .beerStyle("IPA")
-                    .quantityToBrew(200)
-                    .minOnHand(250)
-                    .price(new BigDecimal("10.95"))
-                    .build());
+        Beer b2 = Beer.builder()
+                .beerName("Galaxy Cat")
+                .beerStyle(BeerStyleEnum.PALE_ALE.name())
+                .minOnHand(12)
+                .quantityToBrew(200)
+                .price(new BigDecimal("12.95"))
+                .upc(BEER_2_UPC)
+                .build();
 
-        }
-        System.out.println("Beer Repo..Loaded");
+        Beer b3 = Beer.builder()
+                .beerName("Pinball Porter")
+                .beerStyle(BeerStyleEnum.PALE_ALE.name())
+                .minOnHand(12)
+                .quantityToBrew(200)
+                .price(new BigDecimal("12.95"))
+                .upc(BEER_3_UPC)
+                .build();
+
+        beerRepository.save(b1);
+        beerRepository.save(b2);
+        beerRepository.save(b3);
     }
 }
